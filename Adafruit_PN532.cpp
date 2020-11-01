@@ -55,6 +55,11 @@
 #endif
 
 #include <SPI.h>
+#ifdef ESP32
+  #define SPI_SPEED (100000)
+#else
+  #define SPI_SPEED (1000000)
+#endif
 
 #include "Adafruit_PN532.h"
 
@@ -118,7 +123,7 @@ static inline uint8_t i2c_recv(void) {
 /**************************************************************************/
 Adafruit_PN532::Adafruit_PN532(uint8_t clk, uint8_t miso, uint8_t mosi,
                                uint8_t ss) {
-  spi_dev = new Adafruit_SPIDevice(ss, clk, miso, mosi, 1000000,
+  spi_dev = new Adafruit_SPIDevice(ss, clk, miso, mosi, SPI_SPEED,
                                    SPI_BITORDER_LSBFIRST, SPI_MODE0);
 }
 
@@ -145,7 +150,7 @@ Adafruit_PN532::Adafruit_PN532(uint8_t irq, uint8_t reset)
 /**************************************************************************/
 Adafruit_PN532::Adafruit_PN532(uint8_t ss) {
   spi_dev =
-      new Adafruit_SPIDevice(ss, 1000000, SPI_BITORDER_LSBFIRST, SPI_MODE0);
+      new Adafruit_SPIDevice(ss, SPI_SPEED, SPI_BITORDER_LSBFIRST, SPI_MODE0);
 }
 
 /**************************************************************************/
